@@ -1,4 +1,5 @@
 ---
+#
 esphome:
   name: m5stack-atom-echo
   friendly_name: M5Stack Atom Echo
