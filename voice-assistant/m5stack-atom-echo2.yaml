@@ -51,6 +51,9 @@ microphone:
     adc_type: external
     pdm: true
 
+media_player:
+  - platform: i2s_audio
+
 speaker:
   - platform: i2s_audio
     id: echo_speaker
