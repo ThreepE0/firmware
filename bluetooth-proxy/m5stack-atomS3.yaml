@@ -1,5 +1,5 @@
 substitutions:
-  name: esp32-bluetooth-proxy
+  name: atom-bluetooth-proxy
   friendly_name: Bluetooth Proxy
 
 esphome:
@@ -12,9 +12,12 @@ esphome:
     version: "1.0"
 
 esp32:
-  board: esp32dev
+  board: m5stack-atoms3
+  variant: esp32s3
   framework:
     type: esp-idf
+    version: 5.0.2
+    platform_version: 6.3.2
 
 wifi:
   ap:
@@ -27,7 +30,7 @@ ota:
   - platform: esphome
 
 dashboard_import:
-  package_import_url: github://esphome/firmware/bluetooth-proxy/esp32-generic.yaml@main
+  package_import_url: github://esphome/firmware/bluetooth-proxy/m5stack-atomS3.yaml@main
 
 esp32_ble_tracker:
   scan_parameters:

@@ -1,6 +1,7 @@
+---
 substitutions:
-  name: esp32-s3-box-lite
-  friendly_name: ESP32 S3 Box Lite
+  name: esp32-s3-box-3
+  friendly_name: ESP32 S3 Box 3
   loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
   idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
   listening_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/listening_320_240.png
@@ -57,6 +58,12 @@ esp32:
       CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
       CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
+      CONFIG_AUDIO_BOARD_CUSTOM: "y"
+      CONFIG_ESP32_S3_BOX_3_BOARD: "y"
+    components:
+      - name: esp32_s3_box_3_board
+        source: github://jesserockz/esp32-s3-box-3-board@main
+        refresh: 0s
 
 psram:
   mode: octal
@@ -78,11 +85,9 @@ ota:
 
 logger:
   hardware_uart: USB_SERIAL_JTAG
-  logs:
-    sensor: INFO
 
 dashboard_import:
-  package_import_url: github://esphome/firmware/voice-assistant/esp32-s3-box-lite.yaml@main
+  package_import_url: github://esphome/firmware/voice-assistant/esp32-s3-box-3.yaml@main
 
 wifi:
   ap:
@@ -104,74 +109,23 @@ button:
     id: factory_reset_btn
     name: Factory reset
 
-sensor:
-  - platform: adc
-    pin: GPIO1
-    id: front_buttons
-    update_interval: 16ms
-    attenuation: 11db
-    on_value:
-      - lambda: |-
-          // none: 3.121
-          // left: 2.392
-          // middle: 1.965
-          // left+middle: 1.600
-          // right: 0.794
-          // left+right: 0.726
-          // middle+right: 0.682
-          // all: 0.632
-          if (x > 3) {
-            id(left).publish_state(false);
-            id(middle).publish_state(false);
-            id(right).publish_state(false);
-          } else if (x > 2.3) {
-            id(left).publish_state(true);
-            id(middle).publish_state(false);
-            id(right).publish_state(false);
-          } else if (x > 1.9) {
-            id(left).publish_state(false);
-            id(middle).publish_state(true);
-            id(right).publish_state(false);
-          } else if (x > 1) {
-            id(left).publish_state(true);
-            id(middle).publish_state(true);
-            id(right).publish_state(false);
-          } else if (x > 0.73) {
-            id(left).publish_state(false);
-            id(middle).publish_state(false);
-            id(right).publish_state(true);
-          } else if (x > 0.7) {
-            id(left).publish_state(true);
-            id(middle).publish_state(false);
-            id(right).publish_state(true);
-          } else if (x > 0.65) {
-            id(left).publish_state(false);
-            id(middle).publish_state(true);
-            id(right).publish_state(true);
-          } else {
-            id(left).publish_state(true);
-            id(middle).publish_state(true);
-            id(right).publish_state(true);
-          }
-
 binary_sensor:
-  - platform: template
-    id: left
-    name: "Left"
-  - platform: template
-    id: middle
-    name: "Middle"
-  - platform: template
-    id: right
-    name: "Right"
+  - platform: gpio
+    pin:
+      number: GPIO1
+      inverted: true
+    name: "Mute"
+    disabled_by_default: true
+    entity_category: diagnostic
 
   - platform: gpio
     pin:
       number: GPIO0
       mode: INPUT_PULLUP
       inverted: true
-    name: Left Top Button
+    name: Top Left Button
     disabled_by_default: true
+    entity_category: diagnostic
     on_multi_click:
       - timing:
           - ON for at least 10s
@@ -180,8 +134,7 @@ binary_sensor:
 
 output:
   - platform: ledc
-    pin: GPIO45
-    inverted: true
+    pin: GPIO47
     id: backlight_output
 
 light:
@@ -194,7 +147,7 @@ light:
     default_transition_length: 250ms
 
 esp_adf:
-  board: esp32s3boxlite
+  board: esp32s3box3
 
 microphone:
   - platform: esp_adf
@@ -477,11 +430,13 @@ spi:
 display:
   - platform: ili9xxx
     id: s3_box_lcd
-    model: S3BOX_LITE
+    model: S3BOX
     data_rate: 40MHz
     cs_pin: 5
     dc_pin: 4
-    reset_pin: 48
+    reset_pin:
+      number: 48
+      inverted: true
     update_interval: never
     pages:
       - id: idle_page

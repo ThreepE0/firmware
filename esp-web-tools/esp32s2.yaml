@@ -5,7 +5,10 @@ substitutions:
 esphome:
   name: "${name}"
   friendly_name: "${friendly_name}"
+  min_version: 2024.6.0
   name_add_mac_suffix: true
+  platformio_options:
+    board_build.flash_mode: dio
   project:
     name: esphome.esp_web_tools_example
     version: "1.0"
@@ -23,6 +26,7 @@ api:
 
 # Allow OTA updates
 ota:
+  - platform: esphome
 
 # Allow provisioning Wi-Fi via serial
 improv_serial:
