@@ -63,6 +63,7 @@ media_player:
   - platform: i2s_audio
     id: ha_media_player
     entity_id: media_player.kitchen_speaker
+    dac_type: external
 
 voice_assistant:
   id: va
