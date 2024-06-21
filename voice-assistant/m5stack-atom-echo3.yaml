@@ -101,7 +101,7 @@ voice_assistant:
     - delay: 100ms
     - wait_until:
         not:
-          media_player.kitchen_speaker.is_playing:
+          speaker.is_playing:
     - script.execute: reset_led
   on_error:
     - light.turn_on:
