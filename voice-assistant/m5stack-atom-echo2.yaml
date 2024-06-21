@@ -61,6 +61,11 @@ speaker:
     dac_type: external
     mode: mono
 
+homeassistant:
+  media_player:
+    id: ha_media_player
+    entity_id: media_player.kitchen_speaker
+
 voice_assistant:
   id: va
   microphone: echo_microphone
