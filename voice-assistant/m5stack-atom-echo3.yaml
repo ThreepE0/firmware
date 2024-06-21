@@ -85,21 +85,19 @@ voice_assistant:
     - light.turn_on:
         id: led
         blue: 100%
-        red: 0%
+        red: 50%
         green: 0%
         brightness: 100%
         effect: none
   on_tts_end:
-     - homeassistant.service:
+    - script.execute: reset_led
+    - homeassistant.service:
          service: media_player.play_media
          data:
            entity_id: media_player.kitchen_speaker
            media_content_id: !lambda 'return x;'
            media_content_type: music
-           announce: "true"        
-  on_end:
-    - delay: 100ms
-    - script.execute: reset_led
+           announce: "true"
   on_error:
     - light.turn_on:
         id: led
