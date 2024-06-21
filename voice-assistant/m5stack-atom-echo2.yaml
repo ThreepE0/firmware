@@ -51,8 +51,6 @@ microphone:
     adc_type: external
     pdm: true
 
-media_player:
-  - platform: i2s_audio
 
 speaker:
   - platform: i2s_audio
@@ -61,10 +59,10 @@ speaker:
     dac_type: external
     mode: mono
 
-homeassistant:
-  media_player:
-    id: ha_media_player
-    entity_id: media_player.kitchen_speaker
+media_player:
+  - platform: i2s_audio
+  id: ha_media_player
+  entity_id: media_player.kitchen_speaker
 
 voice_assistant:
   id: va
