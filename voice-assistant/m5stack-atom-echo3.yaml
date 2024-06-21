@@ -61,8 +61,8 @@ speaker:
 
 media_player:
   - platform: i2s_audio
-  id: ha_media_player
-  entity_id: media_player.kitchen_speaker
+    id: ha_media_player
+    entity_id: media_player.kitchen_speaker
 
 voice_assistant:
   id: va
@@ -247,6 +247,6 @@ external_components:
   - source: github://pr#5230
     components:
       - esp_adf
-    refresh: 0s
+    refresh: 0s #bananas
 
 esp_adf:
