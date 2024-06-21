@@ -91,7 +91,7 @@ voice_assistant:
      - homeassistant.service:
          service: media_player.play_media
          data:
-           entity_id: media_player.your_desired_speaker # <- change this
+           entity_id: media_player.kitchen_speaker
            media_content_id: !lambda 'return x;'
            media_content_type: music
            announce: "true"        
