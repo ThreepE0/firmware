@@ -52,18 +52,10 @@ microphone:
     pdm: true
 
 
-speaker:
-  - platform: i2s_audio
-    id: echo_speaker
-    i2s_dout_pin: GPIO25
-    dac_type: external
-    mode: mono
-
 
 voice_assistant:
   id: va
   microphone: echo_microphone
-  speaker: echo_speaker
   noise_suppression_level: 2
   auto_gain: 31dBFS
   volume_multiplier: 2.0
@@ -101,10 +93,6 @@ voice_assistant:
            announce: "true"
   on_end:
     - delay: 100ms
-    - wait_until:
-        not:
-          speaker.is_playing:
-
 
   on_error:
     - light.turn_on:
@@ -204,8 +192,8 @@ script:
             - light.turn_on:
                 id: led
                 red: 100%
-                green: 89%
-                blue: 71%
+                green: 50%
+                blue: 81%
                 brightness: 60%
                 effect: none
           else:
