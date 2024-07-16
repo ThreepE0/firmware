@@ -67,13 +67,13 @@ voice_assistant:
         red: 0%
         green: 0%
         effect: "Slow Pulse"
-    - homeassistant.service:
-        service: tts.speak
-        data:
-          cache: "false"
-          media_player_entity_id: ${media_player_entity}
-          message: Yes?
-          entity_id: ${tts_entity}
+    #- homeassistant.service:
+    #    service: tts.speak
+    #    data:
+    #      cache: "false"
+    #      media_player_entity_id: ${media_player_entity}
+    #      message: Yes?
+    #      entity_id: ${tts_entity}
   on_stt_vad_end:
     - light.turn_on:
         id: led
